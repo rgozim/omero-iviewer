@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {AureliaPlugin} = require('aurelia-webpack-plugin');
-const ProvidePlugin = require('webpack/lib/ProvidePlugin');
+const {ProvidePlugin} = require('webpack');
 
 module.exports = {
   entry: {
