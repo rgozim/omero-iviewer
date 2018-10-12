@@ -1,0 +1,4 @@
+{
+  "name": "build-plugin",
+  "description": "Runs build task and moves the output to the plugin folder."
+}
