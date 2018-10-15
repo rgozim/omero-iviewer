@@ -26,7 +26,7 @@ import * as Bluebird from 'bluebird';
 // import Index from './app/index';
 
 // #if process.env.NODE_ENV
-require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
+require('../node_modules/bootstrap/dist/css/bootstrap.css');
 require('../node_modules/jquery-ui/themes/base/theme.css');
 require('../node_modules/jquery-ui/themes/base/spinner.css');
 require('../node_modules/jquery-ui/themes/base/slider.css');
@@ -61,7 +61,7 @@ if (!is_dev_server) {
  * @param {Object} aurelia the aurelia instance
  */
 bootstrap(function(aurelia) {
-    aurelia.use.basicConfiguration();
+    aurelia.use.basicConfiguration().plugin(PLATFORM.moduleName('aurelia-dialog'));
     let ctx = new Context(aurelia.container.get(EventAggregator), req);
     if (is_dev_server) ctx.is_dev_server = true;
     aurelia.container.registerInstance(Context,ctx);

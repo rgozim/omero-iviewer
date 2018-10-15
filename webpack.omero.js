@@ -2,6 +2,9 @@ const path = require('path');
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const CopyWebPackPlugin = require("copy-webpack-plugin");
 
+const outDir = path.resolve(__dirname, project.platform.plugin);
+const baseUrl = '/';
+
 // the path(s) that should be cleaned
 const pathsToClean = [
   "plugin/omero_iviewer/static/*.*",
@@ -17,11 +20,15 @@ const copyFilesAndFolders = [
 ];
 
 module.exports = {
+  output: {
+    path: outDir,
+    publicPath: baseUrl
+  },
   plugins: [
     new CleanWebpackPlugin(pathsToClean),
     new CopyWebPackPlugin(copyFilesAndFolders, { debug: 'info' })
   ]
-}
+};
 
 function root(args) {
   args = Array.prototype.slice.call(arguments, 0);

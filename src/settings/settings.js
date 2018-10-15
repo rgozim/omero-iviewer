@@ -25,11 +25,12 @@ import {
     CHANNEL_SETTINGS_MODE, IMAGE_CONFIG_RELOAD, TABS, WEBGATEWAY
 } from '../utils/constants';
 import {inject, customElement, bindable, BindingEngine} from 'aurelia-framework';
-
+import {DialogService} from 'aurelia-dialog';
 import {
     IMAGE_SETTINGS_REFRESH, IMAGE_INTENSITY_QUERYING, IMAGE_SETTINGS_CHANGE,
     SAVE_ACTIVE_IMAGE_SETTINGS, THUMBNAILS_UPDATE, EventSubscriber
 } from '../events/events';
+import {Share} from './share';
 
 /**
  * Represents the settings section in the right hand panel
@@ -37,7 +38,7 @@ import {
  */
 
 @customElement('settings')
-@inject(Context, BindingEngine)
+@inject(Context, BindingEngine, DialogService)
 export default class Settings extends EventSubscriber {
     /**
      * a reference to the image config (bound in template)
@@ -112,10 +113,17 @@ export default class Settings extends EventSubscriber {
      * @param {Context} context the application context (injected)
      * @param {BindingEngine} bindingEngine the BindingEngine (injected)
      */
-    constructor(context, bindingEngine) {
+    constructor(context, bindingEngine, dialogService) {
         super(context.eventbus);
         this.context = context;
         this.bindingEngine = bindingEngine;
+        this.dialogService = dialogService;
+    }
+
+    share() {
+      this.dialogService.open({
+        ViewModel: Share
+      });
     }
 
     /**

@@ -55,6 +55,18 @@
             click.delegate="paste()">Paste</button>
     </div>
 
+    <div class="btn-group share">
+      <button type="button" class="btn btn-default dropdown-toggle"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false">
+        Action <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a click.delegate="share()">Share</a></li>
+      </ul>
+    </div>
+
     <div class="checkbox checkbox-settings">
         <div>
             <label>

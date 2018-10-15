@@ -4,7 +4,6 @@ import del from 'del';
 import project from '../aurelia.json';
 import build, {config} from './build';
 
-
 const cssPath = project.paths.plugin + '/omero_iviewer/static/omero_iviewer/css';
 const jsPath = project.paths.plugin + '/omero_iviewer/static/omero_iviewer';
 const templatePath = project.paths.plugin + '/omero_iviewer/templates/omero_iviewer';
