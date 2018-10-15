@@ -71,7 +71,6 @@ bootstrap(function (aurelia) {
     }
     
     aurelia.container.registerInstance(Context, ctx);
-
     aurelia.start().then(
         () => aurelia.setRoot(PLATFORM.moduleName('app/index'), document.body));
 });
