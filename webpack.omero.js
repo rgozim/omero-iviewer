@@ -13,7 +13,6 @@ const srcDir = path.resolve(__dirname, 'src');
 const outDir = path.resolve(__dirname, project.paths.plugin);
 const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 
-
 // the path(s) that should be cleaned
 const pathsToClean = [
   "plugin/omero_iviewer/static/*.*",
@@ -28,6 +27,12 @@ const copyFilesAndFolders = [
   { from: "build/*.js*", to: __dirname + "plugin/omero_iviewer/static/omero_iviewer/" }
 ];
 
+const cssRules = [
+  { loader: 'css-loader' },
+  { loader: 'postcss-loader',
+  options: { plugins: () => [require('autoprefixer')({ browsers: ['last 2 versions']})]}}
+];
+
 module.exports = {
   resolve: {
     extensions: ['.js'],
@@ -38,7 +43,7 @@ module.exports = {
   },
   entry: {
     app: ['aurelia-bootstrapper'],
-    vendor: ['bluebird'],
+    vendor: ['bluebird', 'jquery', 'bootstrap'],
   },
   mode: 'development',
   output: {
@@ -54,9 +59,11 @@ module.exports = {
         test: /\.css$/i,
         issuer: [{ not: [{ test: /\.html$/i }] }],
         use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'style-loader']
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          'css-loader'
+        ]
       },
       {
         test: /\.css$/i,
@@ -74,7 +81,7 @@ module.exports = {
       {
         test: /\.js$/i,
         loader: 'babel-loader',
-        exclude: /(node_modules|bower_components)/
+        exclude: nodeModulesDir
       },
       // use Bluebird as the global Promise implementation:
       { test: /[\/\\]node_modules[\/\\]bluebird[\/\\].+\.js$/, loader: 'expose-loader?Promise' },
@@ -97,13 +104,6 @@ module.exports = {
     }),
     new ModuleDependenciesPlugin({
       'aurelia-testing': ['./compile-spy', './view-spy']
-    }),
-    new HtmlWebpackPlugin({
-      template: 'index.ejs',
-      metadata: {
-        // available in index.ejs //
-        title, server, baseUrl
-      }
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',

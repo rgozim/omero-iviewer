@@ -1,10 +1,13 @@
 import gulp from 'gulp';
 import rename from "gulp-rename";
 import del from 'del';
-import project from '../aurelia.json';
-
-import webpackConfig from '../../webpack.omero';
 import webpack from 'webpack';
+import {CLIOptions} from 'aurelia-cli';
+import project from '../aurelia.json';
+import configureEnvironment from './environment';
+import webpackConfig from '../../webpack.omero';
+
+
 
 const cssPath = project.paths.plugin + '/omero_iviewer/static/omero_iviewer/css';
 const jsPath = project.paths.plugin + '/omero_iviewer/static/omero_iviewer';
@@ -30,7 +33,7 @@ function clearPlugin() {
   return del([cssPath, jsPath, templatePath]);
 }
 
-const config = webpackConfig();
+const config = webpackConfig;
 const compiler = webpack(config);
 
 function buildWebpack(done) {
