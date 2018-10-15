@@ -24,7 +24,7 @@ const cssRules = [
   { loader: 'css-loader' },
 ];
 
-module.exports = ({ production, server, extractCss, coverage, analyze, karma } = {}) => ({
+module.exports = ({production, server, extractCss, coverage, analyze, karma} = {}) => ({
   resolve: {
     extensions: ['.js'],
     modules: [srcDir, 'node_modules'],
@@ -72,9 +72,8 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma } =
         use: cssRules
       },
       { test: /\.html$/i, loader: 'html-loader' },
-      {
-        test: /\.js$/i, loader: 'babel-loader', exclude: nodeModulesDir,
-        options: coverage ? { sourceMap: 'inline', plugins: ['istanbul'] } : {},
+      { test: /\.js$/i, loader: 'babel-loader', exclude: nodeModulesDir,
+        options: coverage ? { sourceMap: 'inline', plugins: [ 'istanbul' ] } : {},
       },
       // use Bluebird as the global Promise implementation:
       { test: /[\/\\]node_modules[\/\\]bluebird[\/\\].+\.js$/, loader: 'expose-loader?Promise' },
@@ -90,20 +89,13 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma } =
     ...when(!karma, new DuplicatePackageCheckerPlugin()),
     new AureliaPlugin(),
     new ProvidePlugin({
-      Promise: 'bluebird',
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery'
+      'Promise': 'bluebird'
     }),
     new ModuleDependenciesPlugin({
-      'aurelia-testing': ['./compile-spy', './view-spy']
+      'aurelia-testing': [ './compile-spy', './view-spy' ]
     }),
     new HtmlWebpackPlugin({
       template: 'index.ejs',
-      minify: production ? {
-        removeComments: true,
-        collapseWhitespace: true
-      } : undefined,
       metadata: {
         // available in index.ejs //
         title, server, baseUrl

@@ -4,16 +4,8 @@ module.exports = {
   scripts: {
     default: 'nps webpack',
     test: {
-      default: 'nps test.jest',
-      jest: {
-        default: series(
-          rimraf('test/coverage-jest'),
-          crossEnv('BABEL_TARGET=node jest')
-        ),
-        accept: crossEnv('BABEL_TARGET=node jest -u'),
-        watch: crossEnv('BABEL_TARGET=node jest --watch'),
-      },
 
+      default: 'nps test.karma',
       karma: {
         default: series(
           rimraf('test/coverage-karma'),
@@ -29,7 +21,6 @@ module.exports = {
       },
       all: concurrent({
         browser: series.nps('test.karma'),
-        jest: 'nps test.jest',
         lint: 'nps test.lint'
       })
     },

@@ -30,8 +30,8 @@
     "fileExtension": ".js"
   },
   "markupProcessor": {
-    "id": "minimum",
-    "displayName": "Minimal Minification",
+    "id": "none",
+    "displayName": "None",
     "fileExtension": ".html"
   },
   "cssProcessor": {
@@ -40,14 +40,10 @@
     "fileExtension": ".css"
   },
   "editor": {
-    "id": "vscode",
-    "displayName": "Visual Studio Code"
+    "id": "none",
+    "displayName": "None"
   },
   "unitTestRunners": [
-    {
-      "id": "jest",
-      "displayName": "Jest"
-    },
     {
       "id": "karma",
       "displayName": "Karma"

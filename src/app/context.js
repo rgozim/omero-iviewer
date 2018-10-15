@@ -42,10 +42,10 @@ import {
  * the same image can be opened/viewer/interacted with multiple times and
  * potentially independently.
  *
- * The flag that defines if nore than one image can be opened/viewed/interacted with
+ * The flagcler that defines if nore than one image can be opened/viewed/interacted with
  * is useMDI.
  */
-@noView
+// noView
 export default class Context {
     /**
      * the version number
