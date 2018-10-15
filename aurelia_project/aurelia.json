@@ -1,5 +1,5 @@
 {
-  "name": "omero-iviewer",
+  "name": "example",
   "type": "project:application",
   "bundler": {
     "id": "webpack",
@@ -18,7 +18,7 @@
     "hmr": false,
     "open": false,
     "port": 8080,
-    "output": "build"
+    "output": "dist"
   },
   "loader": {
     "id": "none",
@@ -27,12 +27,7 @@
   "transpiler": {
     "id": "babel",
     "displayName": "Babel",
-    "fileExtension": ".js",
-    "options": {
-      "plugins": [
-        "transform-es2015-modules-amd"
-      ]
-    }
+    "fileExtension": ".js"
   },
   "markupProcessor": {
     "id": "minimum",

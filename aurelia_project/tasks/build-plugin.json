@@ -1,4 +1,16 @@
 {
   "name": "build-plugin",
-  "description": "Runs build task and moves the output to the plugin folder."
+  "description": "Runs build task and moves the output to the plugin folder.",
+  "flags": [
+    {
+      "name": "env",
+      "description": "Sets the build environment.",
+      "type": "string"
+    },
+    {
+      "name": "watch",
+      "description": "Watches source files for changes and refreshes the bundles automatically.",
+      "type": "boolean"
+    }
+  ]
 }

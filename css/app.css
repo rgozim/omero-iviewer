@@ -38,10 +38,10 @@ hr {
 .container-fluid {
     padding: 0px;
 }
-@font-face {
+/* @font-face {
   font-family: 'Glyphicons Halflings';
   src: url('fonts/glyphicons-halflings-regular.woff');
-}
+} */
 /** BOOTSTRAP adjustments END **/
 
 /** JQUERY UI adjustments START **/
@@ -422,41 +422,41 @@ a.ui-button:active,
     cursor: pointer;
     position: absolute;
 }
-.dim-arrow-up {
+/* .dim-arrow-up {
     background-image: url('images/arrow-up.png');
     margin-bottom: 8px;
     margin-left: -3px;
-}
-.player-up {
+} */
+/* .player-up {
     background-image: url('images/play-up.png');
-}
-.dim-arrow-down {
+} */
+/* .dim-arrow-down {
     background-image: url('images/arrow-down.png');
     margin-top: 8px;
     margin-left: -3px;
-}
-.player-down {
+} */
+/* .player-down {
     background-image: url('images/play-down.png');
-}
-.dim-arrow-left {
+} */
+/* .dim-arrow-left {
     background-image: url('images/arrow-left.png');
     margin-right: 8px;
     margin-top: -3px;
-}
-.player-left {
+} */
+/* .player-left {
     background-image: url('images/play-left.png');
-}
-.dim-arrow-right {
+} */
+/* .dim-arrow-right {
     background-image: url('images/arrow-right.png');
     margin-left: 8px;
     margin-top: -3px;
-}
-.player-right {
+} */
+/* .player-right {
     background-image: url('images/play-right.png');
-}
-.player-stop {
+} */
+/* .player-stop {
     background-image: url('images/play-stop.png');
-}
+} */
 
 .sidebar {
     float:left;
