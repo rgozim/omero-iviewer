@@ -102,7 +102,7 @@ module.exports = {
       template: 'index.ejs',
       metadata: {
         // available in index.ejs //
-        """" "", baseUrl
+        title, server, baseUrl
       }
     }),
     new MiniCssExtractPlugin({
