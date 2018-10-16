@@ -8,9 +8,9 @@ import configureEnvironment from './environment';
 import webpackConfig from '../../webpack.omero';
 import {CLIOptions} from 'aurelia-cli';
 
-const cssPath = path.join(project.iviewer.root, project.iviewer.css);
-const jsPath = path.join(project.iviewer.root, project.iviewer.js);
 const templatePath = path.join(project.iviewer.root, project.iviewer.templates);
+const staticPath = path.join(project.iviewer.root, project.iviewer.static);
+const cssPath = path.join(staticPath, 'css');
 
 const config = webpackConfig;
 const compiler = webpack(config);
@@ -42,23 +42,23 @@ function clearDist() {
   return del([config.output.path]);
 }
 
-function copyCssFiles() {
-  return gulp.src([config.output.path + '/**', '!*.js', '!*.html'])
-    .pipe(gulp.dest(jsPath));
+function clearPlugin() {
+  return del([staticPath, templatePath]);
 }
 
 function copyJsFiles() {
-  return gulp.src([config.output.path + '/*', '!css', 'src/openwith.js'])
-    .pipe(gulp.dest(jsPath));
+  return gulp.src([config.output.path + '/**/*', 'src/openwith.js', '!**/*.html', '!css'])
+    .pipe(gulp.dest(staticPath));
+}
+
+function copyCssFiles() {
+  return gulp.src([config.output.path + '/css/**/*', '!css/**/*.js', '!css/**/*.html'])
+    .pipe(gulp.dest(cssPath));
 }
 
 function copyIndexHtml() {
   return gulp.src('src/index.html')
     .pipe(gulp.dest(templatePath));
-}
-
-function clearPlugin() {
-  return del([cssPath, jsPath, templatePath]);
 }
 
 const exec = require('child_process').exec;

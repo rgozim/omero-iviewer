@@ -49,19 +49,19 @@ module.exports = {
         issuer: [{ test: /\.html$/i }],
         // CSS required in templates cannot be extracted safely
         // because Aurelia would try to require it again in runtime
-        use: [ { loader: 'css-loader' } ]
+        use: [{ loader: 'css-loader' }]
       },
       { test: /\.html$/i, loader: 'html-loader' },
       { test: /\.js$/i, loader: 'babel-loader', exclude: nodeModulesDir },
       // use Bluebird as the global Promise implementation:
       { test: /[\/\\]node_modules[\/\\]bluebird[\/\\].+\.js$/, loader: 'expose-loader?Promise' },
-      // embed images as files:
-      { test: /\.(png|gif|jpg|cur)$/i, loader: 'file-loader?name=css/images/[name].[ext]' },
       // embed fonts as Data Urls and larger ones as files:
       { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff2', name: 'css/fonts/[name].[ext]' } },
       { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff', name: 'css/fonts/[name].[ext]' } },
+      // embed images as files:
+      { test: /\.(png|gif|jpg|cur)$/i, loader: 'file-loader?name=css/images/[name].[ext]' },
       // load these fonts normally, as files:
-      { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'file-loader?name=css/fonts/[name].[ext]'},
+      { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'file-loader?name=css/fonts/[name].[ext]' },
     ]
   },
   plugins: [

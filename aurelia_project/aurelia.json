@@ -67,9 +67,8 @@
   },
   "packageManager": "npm",
   "iviewer" : {
-    "root" : "plugin",
-    "js" : "omero_iviewer/static/omero_iviewer",
-    "css" : "omero_iviewer/static/omero_iviewer/css",
-    "templates" : "omero_iviewer/templates/omero_iviewer"
+    "root" : "plugin/omero_iviewer",
+    "static" : "static",
+    "templates" : "templates"
   }
 }
