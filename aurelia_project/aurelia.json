@@ -59,12 +59,17 @@
     "elements": "resources/elements",
     "attributes": "resources/attributes",
     "valueConverters": "resources/value-converters",
-    "bindingBehaviors": "resources/binding-behaviors",
-    "plugin": "plugin"
+    "bindingBehaviors": "resources/binding-behaviors"
   },
   "testFramework": {
     "id": "jasmine",
     "displayName": "Jasmine"
   },
-  "packageManager": "npm"
+  "packageManager": "npm",
+  "iviewer" : {
+    "root" : "plugin",
+    "js" : "omero_iviewer/static/omero_iviewer",
+    "css" : "omero_iviewer/static/omero_iviewer/css",
+    "templates" : "omero_iviewer/templates/omero_iviewer"
+  }
 }

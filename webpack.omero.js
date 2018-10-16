@@ -10,27 +10,27 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const baseUrl = '/';
 const srcDir = path.resolve(__dirname, 'src');
-const outDir = path.resolve(__dirname, project.paths.plugin);
+const outDir = path.resolve(__dirname, project.platform.output);
 const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 
 // the path(s) that should be cleaned
 const pathsToClean = [
-  "plugin/omero_iviewer/static/*.*",
-  "plugin/omero_iviewer/templates/*.*"
+  'plugin/omero_iviewer/static/*.*',
+  'plugin/omero_iviewer/templates/*.*'
 ];
 
 const copyFilesAndFolders = [
   // Add node modules to distribute here
-  { from: "src/index.html", to: __dirname + "plugin/omero_iviewer/templates/omero_iviewer" },
-  { from: "src/openwith.js", to: __dirname + "plugin/omero_iviewer/static/omero_iviewer/" },
-  { from: "build/css/*", to: __dirname + "plugin/omero_iviewer/static/omero_iviewer/css" },
-  { from: "build/*.js*", to: __dirname + "plugin/omero_iviewer/static/omero_iviewer/" }
+  { from: 'src/index.html', to: __dirname + 'plugin/omero_iviewer/templates/omero_iviewer' },
+  { from: 'src/openwith.js', to: __dirname + 'plugin/omero_iviewer/static/omero_iviewer/' },
+  { from: 'build/css/*', to: __dirname + 'plugin/omero_iviewer/static/omero_iviewer/css' },
+  { from: 'build/*.js*', to: __dirname + 'plugin/omero_iviewer/static/omero_iviewer/' }
 ];
 
 const cssRules = [
   { loader: 'css-loader' },
   { loader: 'postcss-loader',
-  options: { plugins: () => [require('autoprefixer')({ browsers: ['last 2 versions']})]}}
+    options: { plugins: () => [require('autoprefixer')({ browsers: ['last 2 versions']})]}}
 ];
 
 module.exports = {
@@ -43,7 +43,7 @@ module.exports = {
   },
   entry: {
     app: ['aurelia-bootstrapper'],
-    vendor: ['bluebird', 'jquery', 'bootstrap'],
+    vendor: ['bluebird', 'jquery', 'bootstrap']
   },
   mode: 'development',
   output: {
@@ -74,23 +74,16 @@ module.exports = {
           { loader: 'css-loader' }
         ]
       },
-      {
-        test: /\.html$/i,
-        loader: 'html-loader'
-      },
-      {
-        test: /\.js$/i,
-        loader: 'babel-loader',
-        exclude: nodeModulesDir
-      },
+      { test: /\.html$/i, loader: 'html-loader' },
+      { test: /\.js$/i, loader: 'babel-loader', exclude: nodeModulesDir },
       // use Bluebird as the global Promise implementation:
       { test: /[\/\\]node_modules[\/\\]bluebird[\/\\].+\.js$/, loader: 'expose-loader?Promise' },
       // embed small images and fonts as Data Urls and larger ones as files:
-      { test: /\.(png|gif|jpg|cur)$/i, loader: 'url-loader', options: { limit: 8192 } },
-      { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff2' } },
-      { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff' } },
+      { test: /\.(png|gif|jpg|cur)$/i, loader: 'url-loader', options: { limit: 8192, name: 'css/images/[name].[ext]' } },
+      { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff2', name: 'css/fonts/[name].[ext]' } },
+      { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff', name: 'css/fonts/[name].[ext]' } },
       // load these fonts normally, as files:
-      { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'file-loader' },
+      { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'file-loader', options: { name: 'css/images/[name].[ext]'} }
     ]
   },
   plugins: [
@@ -106,8 +99,8 @@ module.exports = {
       'aurelia-testing': ['./compile-spy', './view-spy']
     }),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
-      chunkFilename: "[id].css",
+      filename: 'css/all.min.css',
+      chunkFilename: '[id].css',
       allChunks: true
     })
   ]
