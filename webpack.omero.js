@@ -1,37 +1,16 @@
 const path = require('path');
 const project = require('./aurelia_project/aurelia.json');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const { AureliaPlugin, ModuleDependenciesPlugin } = require('aurelia-webpack-plugin');
 const { ProvidePlugin } = require('webpack');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const baseUrl = '/';
 const srcDir = path.resolve(__dirname, 'src');
 const outDir = path.resolve(__dirname, project.platform.output);
 const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 
-// the path(s) that should be cleaned
-const pathsToClean = [
-  'plugin/omero_iviewer/static/*.*',
-  'plugin/omero_iviewer/templates/*.*'
-];
-
-const copyFilesAndFolders = [
-  // Add node modules to distribute here
-  { from: 'src/index.html', to: __dirname + 'plugin/omero_iviewer/templates/omero_iviewer' },
-  { from: 'src/openwith.js', to: __dirname + 'plugin/omero_iviewer/static/omero_iviewer/' },
-  { from: 'build/css/*', to: __dirname + 'plugin/omero_iviewer/static/omero_iviewer/css' },
-  { from: 'build/*.js*', to: __dirname + 'plugin/omero_iviewer/static/omero_iviewer/' }
-];
-
-const cssRules = [
-  { loader: 'css-loader' },
-  { loader: 'postcss-loader',
-    options: { plugins: () => [require('autoprefixer')({ browsers: ['last 2 versions']})]}}
-];
 
 module.exports = {
   resolve: {
