@@ -8,7 +8,6 @@ import configureEnvironment from './environment';
 import webpackConfig from '../../webpack.omero';
 import {CLIOptions} from 'aurelia-cli';
 
-
 const cssPath = path.join(project.iviewer.root, project.iviewer.css);
 const jsPath = path.join(project.iviewer.root, project.iviewer.js);
 const templatePath = path.join(project.iviewer.root, project.iviewer.templates);
@@ -62,14 +61,24 @@ function clearPlugin() {
   return del([cssPath, jsPath, templatePath]);
 }
 
+const exec = require('child_process').exec;
+gulp.task('runAntBuild', function(cb) {
+  exec('ant', function(err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+    cb(err);
+  });
+});
+
 const buildPlugin = gulp.series(
+  'runAntBuild',
   clearDist,
   configureEnvironment,
   buildWebpack,
   clearPlugin,
   copyCssFiles,
   copyJsFiles,
-  copyIndexHtml
+  copyIndexHtml,
 );
 
 export {
