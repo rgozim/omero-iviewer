@@ -68,13 +68,10 @@
 
   <body class="container-fluid">
       <script type="text/javascript"
-              src="{% static 'omero_iviewer/init.js'|add:iviewer_url_suffix %}">
+              src="{% static 'omero_iviewer/app.js'|add:iviewer_url_suffix %}">
       </script>
       <script type="text/javascript"
-              src="{% static 'omero_iviewer/main.js'|add:iviewer_url_suffix %}">
-      </script>
-      <script type="text/javascript"
-              src="{% static 'omero_iviewer/deps.js'|add:iviewer_url_suffix %}">
+              src="{% static 'omero_iviewer/vendor.js'|add:iviewer_url_suffix %}">
       </script>
   </body>
 

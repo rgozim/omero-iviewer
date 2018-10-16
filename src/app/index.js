@@ -34,6 +34,8 @@ import {PLUGIN_PREFIX, SYNC_LOCK, WEBGATEWAY} from '../utils/constants';
 import {IMAGE_VIEWER_RESIZE, IMAGE_VIEWER_CONTROLS_VISIBILITY,
         REGIONS_STORE_SHAPES, REGIONS_STORED_SHAPES} from '../events/events';
 
+// Import bootstrap css
+import 'bootstrap/dist/css/bootstrap.min.css';
 /**
  * @classdesc
  *

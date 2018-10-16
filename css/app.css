@@ -14,9 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-/*@import "~bootstrap/dist/css/bootstrap.css";*/
+*
 
 /** BOOTSTRAP adjustments START **/
 html, body, .frame, .center, ol3-viewer {
@@ -627,7 +625,7 @@ thumbnail-slider img {
     padding-left: 5px;
 }
 
-.save-settings .btn-sm, .history .btn-sm {
+.save-settings .btn-sm, .history .share .btn-sm {
     padding: 5px 8px;
 }
 

@@ -18,17 +18,17 @@
 
 import { PLATFORM } from 'aurelia-pal';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { bootstrap } from 'aurelia-bootstrapper';
+
 import Context from './app/context';
 import Misc from './utils/misc';
 import { URI_PREFIX, PLUGIN_NAME, WINDOWS_1252 } from './utils/constants';
 import * as Bluebird from 'bluebird';
 
-import 'bootstrap'
-
 // import Index from './app/index';
 
 // #if process.env.NODE_ENV
-require('../node_modules/bootstrap/dist/css/bootstrap.css');
+require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
 require('../node_modules/jquery-ui/themes/base/theme.css');
 require('../node_modules/jquery-ui/themes/base/spinner.css');
 require('../node_modules/jquery-ui/themes/base/slider.css');
@@ -39,7 +39,7 @@ require('../css/app.css');
 
 // global scope settings
 Bluebird.config({ warnings: { wForgottenReturn: false } });
-window['encoding-indexes'] = { "windows-1252": WINDOWS_1252 };
+window['encoding-indexes'] = { 'windows-1252': WINDOWS_1252 };
 
 /* IMPORTANT:
  * we have to set the public path here to include any potential prefix
@@ -51,10 +51,10 @@ let is_dev_server = false;
 is_dev_server = true;
 // #endif
 if (!is_dev_server) {
-    let prefix =
+  let prefix =
         typeof req[URI_PREFIX] === 'string' ?
-            Misc.prepareURI(req[URI_PREFIX]) : "";
-    __webpack_public_path__ = prefix + '/static/' + PLUGIN_NAME + '/';
+          Misc.prepareURI(req[URI_PREFIX]) : '';
+  __webpack_public_path__ = prefix + '/static/' + PLUGIN_NAME + '/';
 }
 
 /**
@@ -62,17 +62,16 @@ if (!is_dev_server) {
  * @function
  * @param {Object} aurelia the aurelia instance
  */
-export function configure(aurelia) {
-    aurelia.use
-        .basicConfiguration()
-        .plugin(PLATFORM.moduleName('aurelia-dialog'));
+bootstrap(aurelia => {
+  aurelia.use
+    .basicConfiguration();
+    // .plugin(PLATFORM.moduleName('aurelia-dialog'));
 
-    let ctx = new Context(aurelia.container.get(EventAggregator), req);
-    if (is_dev_server) {
-        ctx.is_dev_server = true;
-    }
+  let ctx = new Context(aurelia.container.get(EventAggregator), req);
+  if (is_dev_server) {
+    ctx.is_dev_server = true;
+  }
 
-    aurelia.container.registerInstance(Context, ctx);
-    aurelia.start().then(
-        () => aurelia.setRoot(PLATFORM.moduleName('app/index'), document.body));
-}
+  aurelia.container.registerInstance(Context, ctx);
+  aurelia.start().then(a => a.setRoot(PLATFORM.moduleName('app/index'), document.body));
+});

@@ -43,12 +43,12 @@ function clearDist() {
 }
 
 function copyCssFiles() {
-  return gulp.src(config.output.path + '/css/**')
-    .pipe(gulp.dest(cssPath));
+  return gulp.src([config.output.path + '/**', '!*.js', '!*.html'])
+    .pipe(gulp.dest(jsPath));
 }
 
 function copyJsFiles() {
-  return gulp.src([config.output.path + '/*', '!css'])
+  return gulp.src([config.output.path + '/*', '!css', 'src/openwith.js'])
     .pipe(gulp.dest(jsPath));
 }
 
@@ -71,7 +71,7 @@ gulp.task('runAntBuild', function(cb) {
 });
 
 const buildPlugin = gulp.series(
-  'runAntBuild',
+  // 'runAntBuild',
   clearDist,
   configureEnvironment,
   buildWebpack,
