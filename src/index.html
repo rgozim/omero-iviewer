@@ -19,7 +19,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css'|add:iviewer_url_suffix %}" />
+      <link rel="stylesheet" type="text/css" href="{% static 'omero-iviewer/css/all.min.css'|add:iviewer_url_suffix %}" />
 
       <script type="text/javascript">
         window.INITIAL_REQUEST_PARAMS = {};
@@ -68,10 +68,10 @@
 
   <body class="container-fluid">
       <script type="text/javascript"
-              src="{% static 'app.js'|add:iviewer_url_suffix %}">
+              src="{% static 'omero-iviewer/app.js'|add:iviewer_url_suffix %}">
       </script>
       <script type="text/javascript"
-              src="{% static 'vendor.js'|add:iviewer_url_suffix %}">
+              src="{% static 'omero-iviewer/vendor.js'|add:iviewer_url_suffix %}">
       </script>
   </body>
 

@@ -68,7 +68,7 @@
   "packageManager": "npm",
   "iviewer" : {
     "root" : "plugin/omero_iviewer",
-    "static" : "static",
-    "templates" : "templates"
+    "static" : "static/omero_iviewer",
+    "templates" : "templates/omero_iviewer"
   }
 }
