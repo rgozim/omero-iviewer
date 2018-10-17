@@ -43,7 +43,9 @@ function clearDist() {
 }
 
 function clearPlugin() {
-  return del([staticPath, templatePath]);
+  const rootStatic = path.join(project.iviewer.root, 'static');
+  const rootTemplates = path.join(project.iviewer.root, 'template');
+  return del([rootStatic, rootTemplates]);
 }
 
 function copyJsFiles() {

@@ -18,14 +18,14 @@ const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 module.exports = {
   resolve: {
     extensions: ['.js'],
-    modules: [srcDir, 'node_modules'],
+    modules: [srcDir, 'node_modules', 'libs'],
     // Enforce single aurelia-binding, to avoid v1/v2 duplication due to
     // out-of-date dependencies on 3rd party aurelia plugins
     alias: { 'aurelia-binding': path.resolve(__dirname, 'node_modules/aurelia-binding') }
   },
   entry: {
     app: ['aurelia-bootstrapper'],
-    vendor: ['bluebird', 'd3', 'file-saver', 'text-encoding']
+    vendor: ['bluebird']
   },
   mode: 'development',
   output: {

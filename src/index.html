@@ -18,13 +18,14 @@
 
 <!DOCTYPE html>
 <html>
-  <head>
-      <link rel="stylesheet" type="text/css" href="{% static 'omero_iviewer/css/all.min.css'|add:iviewer_url_suffix %}" />
 
-      <script type="text/javascript">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'omero_iviewer/css/all.min.css'|add:iviewer_url_suffix %}" />
+
+    <script type="text/javascript">
         window.INITIAL_REQUEST_PARAMS = {};
         {% for key, value in params.items %}
-            window.INITIAL_REQUEST_PARAMS['{{key}}'] = "{{value}}";
+        window.INITIAL_REQUEST_PARAMS['{{key}}'] = "{{value}}";
         {% endfor %}
 
         window.OME = {}
@@ -32,11 +33,11 @@
 
         // Helper can be used by 'open with' plugins to add isEnabled()
         // handlers to the OPEN_WITH object.
-        OME.setOpenWithEnabledHandler = function(label, fn) {
+        OME.setOpenWithEnabledHandler = function (label, fn) {
             // look for label in OPEN_WITH
-            OME.OPEN_WITH.forEach(function(ow){
+            OME.OPEN_WITH.forEach(function (ow) {
                 if (ow.label === label) {
-                    ow.isEnabled = function() {
+                    ow.isEnabled = function () {
                         // wrap fn with try/catch, since error here will break jsTree menu
                         var args = Array.from(arguments);
                         var enabled = false;
@@ -53,26 +54,24 @@
         };
         // Helper can be used by 'open with' plugins to provide
         // a url for the selected objects
-        OME.setOpenWithUrlProvider = function(id, fn) {
+        OME.setOpenWithUrlProvider = function (id, fn) {
             // look for label in OPEN_WITH
-            OME.OPEN_WITH.forEach(function(ow){
+            OME.OPEN_WITH.forEach(function (ow) {
                 if (ow.id === id) {
                     ow.getUrl = fn;
                 }
             });
         };
-      </script>
+    </script>
 
-      <title>OMERO.iviewer</title>
-  </head>
+    <script type="text/javascript" src="{% static 'omero_iviewer/app.js'|add:iviewer_url_suffix %}">
+    </script>
+    <script type="text/javascript" src="{% static 'omero_iviewer/vendor.js'|add:iviewer_url_suffix %}">
+    </script>
 
-  <body class="container-fluid">
-      <script type="text/javascript"
-              src="{% static 'omero_iviewer/app.js'|add:iviewer_url_suffix %}">
-      </script>
-      <script type="text/javascript"
-              src="{% static 'omero_iviewer/vendor.js'|add:iviewer_url_suffix %}">
-      </script>
-  </body>
+    <title>OMERO.iviewer</title>
+</head>
+
+<div aurelia-app="main">Loading...</div>
 
 </html>

@@ -32,6 +32,9 @@ node_modules
 /src/environment.js
 /src/environment.ts
 
+plugin/omero_iviewer/static
+plugin/omero_iviewer/templates
+
 .settings
 .project
 .pydevproject
