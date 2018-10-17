@@ -7,7 +7,8 @@ const { AureliaPlugin, ModuleDependenciesPlugin } = require('aurelia-webpack-plu
 const { ProvidePlugin } = require('webpack');
 
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-
+const title = 'omero iviewer';
+const server = false;
 const baseUrl = '/';
 const srcDir = path.resolve(__dirname, 'src');
 const outDir = path.resolve(__dirname, project.platform.output);
@@ -66,10 +67,7 @@ module.exports = {
   },
   plugins: [
     new DuplicatePackageCheckerPlugin(),
-    new AureliaPlugin({
-      aureliaApp: 'main',
-      aureliaConfig: 'basic'
-    }),
+    new AureliaPlugin(),
     new ProvidePlugin({
       'Promise': 'bluebird',
       $: 'jquery',
@@ -84,8 +82,16 @@ module.exports = {
       allChunks: true
     }),
     new HtmlWebpackPlugin({
-      template: 'src/index-dev.html',
-      filename: 'index.html'
+      template: 'index.ejs',
+      metadata: {
+        // available in index.ejs //
+        title, server, baseUrl
+      }
     })
   ]
 };
+
+// {
+//   aureliaApp: 'main',
+//     aureliaConfig: 'basic'
+// }

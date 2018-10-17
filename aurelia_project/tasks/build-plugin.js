@@ -82,5 +82,7 @@ const buildPlugin = gulp.series(
 );
 
 export {
+  config,
+  buildWebpack,
   buildPlugin as default
 };

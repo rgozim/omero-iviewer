@@ -19,7 +19,8 @@
 import { PLATFORM } from 'aurelia-pal';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { bootstrap } from 'aurelia-bootstrapper';
-
+import { Index } from './app/index';
+import environment from './environment';
 import Context from './app/context';
 import Misc from './utils/misc';
 import { URI_PREFIX, PLUGIN_NAME, WINDOWS_1252 } from './utils/constants';
@@ -57,21 +58,47 @@ if (!is_dev_server) {
   __webpack_public_path__ = prefix + '/static/' + PLUGIN_NAME + '/';
 }
 
-/**
- * IViewer bootstrap function
- * @function
- * @param {Object} aurelia the aurelia instance
- */
-bootstrap(aurelia => {
+export function configure(aurelia) {
   aurelia.use
     .basicConfiguration();
-    // .plugin(PLATFORM.moduleName('aurelia-dialog'));
+
+  // Uncomment the line below to enable animation.
+  // aurelia.use.plugin(PLATFORM.moduleName('aurelia-animator-css'));
+  // if the css animator is enabled, add swap-order="after" to all router-view elements
+
+  // Anyone wanting to use HTMLImports to load views, will need to install the following plugin.
+  // aurelia.use.plugin(PLATFORM.moduleName('aurelia-html-import-template-loader'));
+
+  aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
+
+  // if (environment.testing) {
+  //   aurelia.use.plugin(PLATFORM.moduleName('aurelia-testing'));
+  // }
 
   let ctx = new Context(aurelia.container.get(EventAggregator), req);
   if (is_dev_server) {
     ctx.is_dev_server = true;
   }
-
   aurelia.container.registerInstance(Context, ctx);
-  aurelia.start().then(a => a.setRoot(PLATFORM.moduleName('app/index'), document.body));
-});
+
+  return aurelia.start().then(a => a.setRoot(PLATFORM.moduleName('app/index'), document.body));
+}
+
+/**
+ * IViewer bootstrap function
+ * @function
+ * @param {Object} aurelia the aurelia instance
+ */
+// bootstrap(aurelia => {
+//   aurelia.use
+//     .basicConfiguration();
+//     // .plugin(PLATFORM.moduleName('aurelia-dialog'));
+//
+//   let ctx = new Context(aurelia.container.get(EventAggregator), req);
+//   if (is_dev_server) {
+//     ctx.is_dev_server = true;
+//   }
+//
+//   aurelia.container.registerInstance(Context, ctx);
+//   aurelia.start().then(a => a.setRoot(PLATFORM.moduleName('app/index'), document.body));
+// });
