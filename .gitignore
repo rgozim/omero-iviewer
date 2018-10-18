@@ -39,6 +39,7 @@ plugin/omero_iviewer/templates
 .project
 .pydevproject
 .DS_Store
+.pyc
 build
 node_modules
 static
