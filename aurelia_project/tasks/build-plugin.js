@@ -1,20 +1,35 @@
-import path from 'path';
 import gulp from 'gulp';
 import del from 'del';
-// import rename from 'gulp-rename';
 import webpack from 'webpack';
+import { CLIOptions, Configuration } from 'aurelia-cli';
+
 import project from '../aurelia.json';
-import configureEnvironment from './environment';
 import webpackConfig from '../../webpack.omero';
-import {CLIOptions} from 'aurelia-cli';
+import configureEnvironment from './environment';
 
-const templatePath = path.join(project.iviewer.root, project.iviewer.templates);
-const staticPath = path.join(project.iviewer.root, project.iviewer.static);
-const cssPath = path.join(staticPath, 'css');
+const analyze = CLIOptions.hasFlag('analyze');
+const buildOptions = new Configuration(project.build.options);
+const production = CLIOptions.getEnvironment() === 'prod';
+const server = buildOptions.isApplicable('server');
+const extractCss = buildOptions.isApplicable('extractCss');
+const coverage = buildOptions.isApplicable('coverage');
 
-const config = webpackConfig;
+const config = webpackConfig({
+  production, server, extractCss, coverage, analyze
+});
 const compiler = webpack(config);
 
+/**
+ *
+ */
+function clearDist() {
+  return del([config.output.path]);
+}
+
+/**
+ * Same function as in build.ts
+ * @param {} done
+ */
 function buildWebpack(done) {
   if (CLIOptions.hasFlag('watch')) {
     compiler.watch({}, onBuild);
@@ -24,13 +39,18 @@ function buildWebpack(done) {
   }
 }
 
+/**
+ *
+ * @param {*} err
+ * @param {*} stats
+ */
 function onBuild(err, stats) {
   if (!CLIOptions.hasFlag('watch') && err) {
     console.error(err.stack || err);
     if (err.details) console.error(err.details);
     process.exit(1);
   } else {
-    process.stdout.write(stats.toString({colors: require('supports-color')}) + '\n');
+    process.stdout.write(stats.toString({ colors: require('supports-color') }) + '\n');
 
     if (!CLIOptions.hasFlag('watch') && stats.hasErrors()) {
       process.exit(1);
@@ -38,53 +58,23 @@ function onBuild(err, stats) {
   }
 }
 
-function clearDist() {
-  return del([config.output.path]);
-}
-
-function clearPlugin() {
-  const rootStatic = path.join(project.iviewer.root, 'static');
-  const rootTemplates = path.join(project.iviewer.root, 'template');
-  return del([rootStatic, rootTemplates]);
-}
-
-function copyJsFiles() {
-  return gulp.src([config.output.path + '/**/*', 'src/openwith.js', '!**/*.html', '!css'])
-    .pipe(gulp.dest(staticPath));
-}
-
-function copyCssFiles() {
-  return gulp.src([config.output.path + '/css/**/*', '!css/**/*.js', '!css/**/*.html'])
-    .pipe(gulp.dest(cssPath));
-}
-
-function copyIndexHtml() {
-  return gulp.src('src/index.html')
-    .pipe(gulp.dest(templatePath));
-}
-
-const exec = require('child_process').exec;
-gulp.task('runAntBuild', function(cb) {
+function runAntBuild() {
+  const exec = require('child_process').exec;
   exec('ant', function(err, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);
-    cb(err);
+    console.error(err.stack || err);
   });
-});
+}
 
-const buildPlugin = gulp.series(
-  // 'runAntBuild',
+const build = gulp.series(
+  // runAntBuild,
   clearDist,
   configureEnvironment,
-  buildWebpack,
-  clearPlugin,
-  copyCssFiles,
-  copyJsFiles,
-  copyIndexHtml,
+  buildWebpack
 );
 
 export {
   config,
-  buildWebpack,
-  buildPlugin as default
+  build as default
 };

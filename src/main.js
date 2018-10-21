@@ -18,7 +18,7 @@
 
 import { PLATFORM } from 'aurelia-pal';
 import { EventAggregator } from 'aurelia-event-aggregator';
-// import { bootstrap } from 'aurelia-bootstrapper';
+
 // import { Index } from './app/index';
 import environment from './environment';
 import Context from './app/context';
@@ -47,11 +47,11 @@ window['encoding-indexes'] = { 'windows-1252': WINDOWS_1252 };
  * has to happen before the bootstrap!
  */
 let req = window.INITIAL_REQUEST_PARAMS || {};
-let is_dev_server = false;
+let isDevServer = false;
 // #if process.env.NODE_ENV === 'dev-server'
-is_dev_server = true;
+// is_dev_server = true;
 // #endif
-if (!is_dev_server) {
+if (!isDevServer) {
   let prefix =
         typeof req[URI_PREFIX] === 'string' ?
           Misc.prepareURI(req[URI_PREFIX]) : '';
@@ -76,8 +76,8 @@ export function configure(aurelia) {
   // }
 
   let ctx = new Context(aurelia.container.get(EventAggregator), req);
-  if (is_dev_server) {
-    ctx.is_dev_server = true;
+  if (isDevServer) {
+    ctx.isDevServer = true;
   }
   aurelia.container.registerInstance(Context, ctx);
 

@@ -1,97 +1,43 @@
-const path = require('path');
-const project = require('./aurelia_project/aurelia.json');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { AureliaPlugin, ModuleDependenciesPlugin } = require('aurelia-webpack-plugin');
-const { ProvidePlugin } = require('webpack');
+const webpackConfig = require('./webpack.config');
+const {ProvidePlugin} = require('webpack');
 
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const title = 'omero iviewer';
-const server = false;
-const baseUrl = '/';
-const srcDir = path.resolve(__dirname, 'src');
-const outDir = path.resolve(__dirname, project.platform.output);
-const nodeModulesDir = path.resolve(__dirname, 'node_modules');
+function modifyConfig({production, server, extractCss, coverage, analyze, karma} = {}) {
+  // We want css to be extracted to separate file
+  extractCss = true;
 
-
-module.exports = {
-  resolve: {
-    extensions: ['.js'],
-    modules: [srcDir, 'node_modules', 'libs'],
-    // Enforce single aurelia-binding, to avoid v1/v2 duplication due to
-    // out-of-date dependencies on 3rd party aurelia plugins
-    alias: { 'aurelia-binding': path.resolve(__dirname, 'node_modules/aurelia-binding') }
-  },
-  entry: {
-    app: ['aurelia-bootstrapper'],
-    vendor: ['bluebird']
-  },
-  mode: 'development',
-  output: {
-    path: outDir,
-    publicPath: baseUrl
-  },
-  performance: { hints: false },
-  module: {
-    rules: [
-      // CSS required in JS/TS files should use the style-loader that auto-injects it into the website
-      // only when the issuer is a .js/.ts file, so the loaders are not applied inside html templates
-      {
-        test: /\.css$/i,
-        issuer: [{ not: [{ test: /\.html$/i }] }],
-        use: [
-          { loader: MiniCssExtractPlugin.loader },
-          { loader: 'css-loader' }
-        ]
-      },
-      {
-        test: /\.css$/i,
-        issuer: [{ test: /\.html$/i }],
-        // CSS required in templates cannot be extracted safely
-        // because Aurelia would try to require it again in runtime
-        use: [{ loader: 'css-loader' }]
-      },
-      { test: /\.html$/i, loader: 'html-loader' },
-      { test: /\.js$/i, loader: 'babel-loader', exclude: nodeModulesDir },
-      // use Bluebird as the global Promise implementation:
-      { test: /[\/\\]node_modules[\/\\]bluebird[\/\\].+\.js$/, loader: 'expose-loader?Promise' },
-      // embed fonts as Data Urls and larger ones as files:
-      { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff2', name: 'css/fonts/[name].[ext]' } },
-      { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff', name: 'css/fonts/[name].[ext]' } },
-      // embed images as files:
-      { test: /\.(png|gif|jpg|cur)$/i, loader: 'file-loader?name=css/images/[name].[ext]' },
-      // load these fonts normally, as files:
-      { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'file-loader?name=css/fonts/[name].[ext]' },
-    ]
-  },
-  plugins: [
-    new DuplicatePackageCheckerPlugin(),
-    new AureliaPlugin(),
-    new ProvidePlugin({
-      'Promise': 'bluebird',
-      $: 'jquery',
-      jQuery: 'jquery'
-    }),
-    new ModuleDependenciesPlugin({
-      'aurelia-testing': ['./compile-spy', './view-spy']
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'css/all.min.css',
-      chunkFilename: '[id].css',
-      allChunks: true
-    }),
-    new HtmlWebpackPlugin({
-      template: 'index.ejs',
-      metadata: {
-        // available in index.ejs //
-        title, server, baseUrl
+  // This is the default aurelia config
+  let config = webpackConfig({
+    production, server, extractCss, coverage, analyze, karma
+  });
+  config.output.publicPath = "";
+  config.resolve.modules.push('libs');
+  config.module.rules = config.module.rules.map(x => {
+    if (x.loader && (x.loader === 'url-loader' || x.loader === 'file-loader')) {
+      if (!x.options) {
+        x.options = {};
       }
-    })
-  ]
-};
 
-// {
-//   aureliaApp: 'main',
-//     aureliaConfig: 'basic'
-// }
+      if (x.test.source === /\.(png|gif|jpg|cur)$/i.source) {
+        x.loader = 'file-loader';
+        x.options.outputPath = 'images';
+      } else {
+        x.options.outputPath = 'fonts';
+      }
+      x.options.name = '[name].[ext]';
+    }
+    return x;
+  });
+  let providePlugin = new ProvidePlugin({
+    'Promise': 'bluebird',
+    $: 'jquery',
+    jQuery: 'jquery',
+    'window.jQuery': 'jquery'
+  });
+  config.plugins.splice(
+    config.plugins.findIndex(
+      p => p.constructor.name === ProvidePlugin.name),
+    1, providePlugin);
+  return config;
+}
+
+module.exports = modifyConfig;
