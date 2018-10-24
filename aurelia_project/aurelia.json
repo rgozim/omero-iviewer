@@ -66,6 +66,11 @@
     "displayName": "Jasmine"
   },
   "packageManager": "npm",
+  "ol3viewer" : {
+    "root" : "plugin/omero_iviewer",
+    "static" : "static/omero_iviewer",
+    "templates" : "templates/omero_iviewer"
+  },
   "iviewer" : {
     "root" : "plugin/omero_iviewer",
     "static" : "static/omero_iviewer",
