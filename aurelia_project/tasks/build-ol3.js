@@ -3,9 +3,11 @@ import gulp from 'gulp';
 import del from 'del';
 import gccmain from 'google-closure-compiler';
 
-const srcPath =  './libs/ol3-viewer/src/';
-const outputPath = './libs/ol3-viewer/dist/';
+const srcPath = path.resolve(__dirname, 'libs/ol3-viewer/src/ome');
+const outputPath = path.resolve(__dirname, 'libs/ol3-viewer/dist');
 const closureCompiler = gccmain.gulp();
+
+const ol3Srcs = path.resolve(__dirname, 'node_modules/openlayers');
 
 const outputWrapper = `(function (root, factory) {
             var tmp = null;
@@ -33,7 +35,7 @@ function clearDist() {
 }
 
 function jsCompile() {
-  return gulp.src(path.join(srcPath, '**/*.js'), {base: './'})
+  return gulp.src(path.join(srcPath, '**/*.js'), ol3Srcs,  {base: './'})
     .pipe(closureCompiler({
       compilation_level: 'SIMPLE',
       warning_level: 'VERBOSE',
