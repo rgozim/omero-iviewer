@@ -19,7 +19,7 @@
 import { PLATFORM } from 'aurelia-pal';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
-// import { Index } from './app/index';
+import { Index } from './app/index';
 import environment from './environment';
 import Context from './app/context';
 import Misc from './utils/misc';
@@ -83,22 +83,3 @@ export function configure(aurelia) {
 
   return aurelia.start().then(a => a.setRoot(PLATFORM.moduleName('app/index')));
 }
-
-/**
- * IViewer bootstrap function
- * @function
- * @param {Object} aurelia the aurelia instance
- */
-// bootstrap(aurelia => {
-//   aurelia.use
-//     .basicConfiguration();
-//     // .plugin(PLATFORM.moduleName('aurelia-dialog'));
-
-//   let ctx = new Context(aurelia.container.get(EventAggregator), req);
-//   if (is_dev_server) {
-//     ctx.is_dev_server = true;
-//   }
-
-//   aurelia.container.registerInstance(Context, ctx);
-//   aurelia.start().then(a => a.setRoot(PLATFORM.moduleName('app/index'), document.body));
-// });

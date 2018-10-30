@@ -17,12 +17,12 @@
 //
 
 // dependencies
+import {inject, customElement, bindable, BindingEngine} from 'aurelia-framework';
 import Context from '../app/context';
 import Misc from '../utils/misc';
 import {Converters} from '../utils/converters';
 import Ui from '../utils/ui';
-import {inject, customElement, bindable, BindingEngine} from 'aurelia-framework';
-import {ol3} from '../../libs/ol3-viewer.js';
+import * as ol3 from '../../libs/ol3-viewer/src/ome/ome';
 import Ol3ViewerLinkedEvents from './ol3-viewer-linked-events';
 import * as FileSaver from '../../node_modules/file-saver';
 import {draggable} from 'jquery-ui/ui/widgets/draggable';

@@ -16,15 +16,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Context from '../app/context';
 import {inject,customElement, bindable, BindingEngine} from 'aurelia-framework';
-import Misc from '../utils/misc';
-import {ol3} from '../../libs/ol3-viewer.js';
 import {slider} from 'jquery-ui/ui/widgets/slider';
-import {PROJECTION} from '../utils/constants';
-import {
-    IMAGE_DIMENSION_CHANGE, IMAGE_DIMENSION_PLAY, IMAGE_SETTINGS_CHANGE
-} from '../events/events';
+import * as ol3 from '../../libs/ol3-viewer/src/ome/ol3/globals';
+
+import Context from '../app/context';
+import Misc from '../utils/misc';
+import { PROJECTION } from '../utils/constants';
+import { IMAGE_DIMENSION_CHANGE, IMAGE_DIMENSION_PLAY, IMAGE_SETTINGS_CHANGE } from '../events/events';
 
 /**
  * Represents a dimension slider using jquery slider

@@ -59,8 +59,8 @@ module.exports = ({production, server, extractCss, coverage, analyze, karma} = {
         test: /\.css$/i,
         issuer: [{ not: [{ test: /\.html$/i }] }],
         use: extractCss ? [{
-          loader: MiniCssExtractPlugin.loader
-        },
+            loader: MiniCssExtractPlugin.loader
+          },
           'css-loader'
         ] : ['style-loader', ...cssRules]
       },

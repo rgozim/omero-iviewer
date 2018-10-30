@@ -17,11 +17,11 @@
 //
 
 // images
-require('../../node_modules/bootstrap/fonts/glyphicons-halflings-regular.woff');
-require('../../node_modules/jquery-ui/themes/base/images/ui-icons_777777_256x240.png');
-require('../../node_modules/jquery-ui/themes/base/images/ui-icons_555555_256x240.png');
-require('../../node_modules/jquery-ui/themes/base/images/ui-icons_ffffff_256x240.png');
-require('../../node_modules/jquery-ui/themes/base/images/ui-icons_444444_256x240.png');
+// require('../../node_modules/bootstrap/fonts/glyphicons-halflings-regular.woff');
+// require('../../node_modules/jquery-ui/themes/base/images/ui-icons_777777_256x240.png');
+// require('../../node_modules/jquery-ui/themes/base/images/ui-icons_555555_256x240.png');
+// require('../../node_modules/jquery-ui/themes/base/images/ui-icons_ffffff_256x240.png');
+// require('../../node_modules/jquery-ui/themes/base/images/ui-icons_444444_256x240.png');
 
 
 // js
@@ -32,10 +32,18 @@ import OpenWith from '../utils/openwith';
 import Ui from '../utils/ui';
 import {PLUGIN_PREFIX, SYNC_LOCK, WEBGATEWAY} from '../utils/constants';
 import {IMAGE_VIEWER_RESIZE, IMAGE_VIEWER_CONTROLS_VISIBILITY,
-        REGIONS_STORE_SHAPES, REGIONS_STORED_SHAPES} from '../events/events';
+  REGIONS_STORE_SHAPES, REGIONS_STORED_SHAPES} from '../events/events';
 
 // Import bootstrap css
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+// images
+import 'bootstrap/fonts/glyphicons-halflings-regular.woff';
+import 'jquery-ui/themes/base/images/ui-icons_777777_256x240.png';
+import 'jquery-ui/themes/base/images/ui-icons_555555_256x240.png';
+import 'jquery-ui/themes/base/images/ui-icons_ffffff_256x240.png';
+import 'jquery-ui/themes/base/images/ui-icons_444444_256x240.png';
+
 /**
  * @classdesc
  *
@@ -69,9 +77,9 @@ export class Index  {
      * @type {Array.<Object>}
      */
     sync_locks = [
-        SYNC_LOCK.ZT,
-        SYNC_LOCK.VIEW,
-        SYNC_LOCK.CHANNELS
+      SYNC_LOCK.ZT,
+      SYNC_LOCK.VIEW,
+      SYNC_LOCK.CHANNELS
     ];
 
     /**
@@ -79,7 +87,7 @@ export class Index  {
      * @param {Context} context the application context
      */
     constructor(context) {
-        this.context = context;
+      this.context = context;
     }
 
     /**
@@ -89,51 +97,53 @@ export class Index  {
      * @memberof Index
      */
     attached() {
-        // listen to resizing of the browser window
-        let publishResize =
+      // listen to resizing of the browser window
+      let publishResize =
             () => this.context.publish(
-                IMAGE_VIEWER_RESIZE,
-                {config_id: -1, window_resize: true});
-        window.onresize = () => {
-            if (typeof this.resizeHandle !== null) {
-                clearTimeout(this.resizeHandle);
-                this.resizeHandle = null;
-            }
-            this.resizeHandle = setTimeout(publishResize, 50);
-        };
-        window.onbeforeunload = () => {
-            if (Misc.useJsonp(this.context.server)) return null;
-            let hasBeenModified = false;
-            for (var [k,v] of this.context.image_configs) {
-                if (v && v.regions_info && v.regions_info.hasBeenModified() &&
+              IMAGE_VIEWER_RESIZE,
+              {config_id: -1, window_resize: true});
+      window.onresize = () => {
+        if (typeof this.resizeHandle !== null) {
+          clearTimeout(this.resizeHandle);
+          this.resizeHandle = null;
+        }
+        this.resizeHandle = setTimeout(publishResize, 50);
+      };
+      window.onbeforeunload = () => {
+        if (Misc.useJsonp(this.context.server)) return null;
+        let hasBeenModified = false;
+        for (let [k, v] of this.context.image_configs) {
+          if (v && v.regions_info && v.regions_info.hasBeenModified() &&
                     v.regions_info.image_info.can_annotate) {
-                    hasBeenModified = true;
-                    break;
-                }
-            }
-            if (hasBeenModified)
-                return "You have new/deleted/modified ROI(s).\n" +
+            hasBeenModified = true;
+            break;
+          }
+        }
+        if (hasBeenModified) {
+          return 'You have new/deleted/modified ROI(s).\n' +
                         "If you leave you'll lose your changes.";
-            return null;
-        };
-        // register resize and collapse handlers
-        Ui.registerSidePanelHandlers(
-            this.context.eventbus,
-            this.context.getPrefixedURI(PLUGIN_PREFIX, true),
-        );
+        }
+        return null;
+      };
+      // register resize and collapse handlers
+      Ui.registerSidePanelHandlers(
+        this.context.eventbus,
+        this.context.getPrefixedURI(PLUGIN_PREFIX, true),
+      );
 
-        // register the fullscreenchange handler
-        this.full_screen_api_prefix = Ui.getFullScreenApiPrefix();
-        if (this.full_screen_api_prefix &&
+      // register the fullscreenchange handler
+      this.full_screen_api_prefix = Ui.getFullScreenApiPrefix();
+      if (this.full_screen_api_prefix &&
             typeof document['on' +
-                this.full_screen_api_prefix + 'fullscreenchange'] !== 'function')
-                document['on' +
+                this.full_screen_api_prefix + 'fullscreenchange'] !== 'function') {
+        document['on' +
                     this.full_screen_api_prefix + 'fullscreenchange'] =
                         () => this.onFullScreenChange();
+      }
 
-        // fetch open with scripts
-        OpenWith.fetchOpenWithScripts(
-            this.context.server + this.context.getPrefixedURI(WEBGATEWAY));
+      // fetch open with scripts
+      OpenWith.fetchOpenWithScripts(
+        this.context.server + this.context.getPrefixedURI(WEBGATEWAY));
     }
 
     /**
@@ -143,36 +153,36 @@ export class Index  {
      * @memberof Index
      */
     closeViewerInMDI(id) {
-        if (!this.context.useMDI) return;
+      if (!this.context.useMDI) return;
 
-        let conf = this.context.getImageConfig(id);
-        if (conf === null || conf.regions_info === null ||
+      let conf = this.context.getImageConfig(id);
+      if (conf === null || conf.regions_info === null ||
             !conf.regions_info.hasBeenModified() ||
             Misc.useJsonp(this.context.server) ||
             !conf.regions_info.image_info.can_annotate) {
-                this.context.removeImageConfig(id);
-                return;
-            };
+        this.context.removeImageConfig(id);
+        return;
+      }
 
-            let saveHandler = () => {
-                let tmpSub =
+      let saveHandler = () => {
+        let tmpSub =
                     this.context.eventbus.subscribe(
-                        REGIONS_STORED_SHAPES,
-                        (params={}) => {
-                            tmpSub.dispose();
-                            this.context.removeImageConfig(id);
-                    });
-                setTimeout(()=>
-                    this.context.publish(
-                        REGIONS_STORE_SHAPES,
-                        {config_id : conf.id,
-                         omit_client_update: true}), 20);
-            };
-            Ui.showConfirmationDialog(
-                'Save ROIs?',
-                'You have new/deleted/modified ROI(s).<br>' +
+                      REGIONS_STORED_SHAPES,
+                      (params = {}) => {
+                        tmpSub.dispose();
+                        this.context.removeImageConfig(id);
+                      });
+        setTimeout(()=>
+          this.context.publish(
+            REGIONS_STORE_SHAPES,
+            {config_id: conf.id,
+              omit_client_update: true}), 20);
+      };
+      Ui.showConfirmationDialog(
+        'Save ROIs?',
+        'You have new/deleted/modified ROI(s).<br>' +
                 'Do you want to save your changes?',
-                saveHandler, () => this.context.removeImageConfig(id));
+        saveHandler, () => this.context.removeImageConfig(id));
     }
 
     /**
@@ -181,12 +191,12 @@ export class Index  {
      * @param {string|null} group the sync group or null
      * @memberof Index
      */
-    toggleSyncGroup(id, group=null) {
-        let conf = this.context.getImageConfig(id);
-        if (conf === null) return;
+    toggleSyncGroup(id, group = null) {
+      let conf = this.context.getImageConfig(id);
+      if (conf === null) return;
 
-        conf.toggleSyncGroup(group);
-        this.context
+      conf.toggleSyncGroup(group);
+      this.context;
     }
 
     /**
@@ -196,8 +206,7 @@ export class Index  {
      * @memberof Index
      */
     highlightSyncGroup(group = [], flag) {
-        for (let g in group)
-            $('#' + group[g]).css("border-color", flag ? "yellow" : "");
+      for (let g in group) {$('#' + group[g]).css('border-color', flag ? 'yellow' : '');}
     }
 
     /**
@@ -209,12 +218,12 @@ export class Index  {
      * @memberof Index
      */
     toggleSyncLock(id, lock = 'c', flag) {
-        let conf = this.context.getImageConfig(id);
-        if (conf === null || conf.sync_group === null) return;
-        let syncGroup = this.context.sync_groups.get(conf.sync_group);
-        if (syncGroup) {
-            syncGroup.sync_locks[lock] = flag;
-        }
+      let conf = this.context.getImageConfig(id);
+      if (conf === null || conf.sync_group === null) return;
+      let syncGroup = this.context.sync_groups.get(conf.sync_group);
+      if (syncGroup) {
+        syncGroup.sync_locks[lock] = flag;
+      }
     }
 
     /**
@@ -224,12 +233,12 @@ export class Index  {
      * @memberof Index
      */
     toggleViewerControlsInMDI(id) {
-        let conf = this.context.getImageConfig(id);
-        if (conf === null) return;
+      let conf = this.context.getImageConfig(id);
+      if (conf === null) return;
 
-        this.context.publish(
-            IMAGE_VIEWER_CONTROLS_VISIBILITY,
-            {config_id : conf.id, flag: !conf.show_controls});
+      this.context.publish(
+        IMAGE_VIEWER_CONTROLS_VISIBILITY,
+        {config_id: conf.id, flag: !conf.show_controls});
     }
 
     /**
@@ -238,18 +247,18 @@ export class Index  {
      * @memberof Index
      */
     onFullScreenChange() {
-        let isInFullScreen =
+      let isInFullScreen =
             document[this.full_screen_api_prefix + 'isFullScreen'] ||
             document[this.full_screen_api_prefix + 'FullScreen'] ||
             document[this.full_screen_api_prefix + 'FullscreenElement'];
 
-        if (isInFullScreen) {
-            this.restoreMDI = this.context.useMDI;
-            if (this.restoreMDI) this.context.useMDI = false;
-        } else {
-            if (this.restoreMDI) this.context.useMDI = true;
-        }
-        $(".viewer-context-menu").hide();
+      if (isInFullScreen) {
+        this.restoreMDI = this.context.useMDI;
+        if (this.restoreMDI) this.context.useMDI = false;
+      } else {
+        if (this.restoreMDI) this.context.useMDI = true;
+      }
+      $('.viewer-context-menu').hide();
     }
 
     /**
@@ -260,13 +269,13 @@ export class Index  {
      * @memberof Index
      */
     detached() {
-        window.onresize = null;
-        window.onbeforeunload = null;
-        if (this.full_screen_api_prefix !== null &&
+      window.onresize = null;
+      window.onbeforeunload = null;
+      if (this.full_screen_api_prefix !== null &&
             document['on' +
                 this.full_screen_api_prefix + 'fullscreenchange']) {
-                document['on'
+        document['on'
                     + this.full_screen_api_prefix + 'fullscreenchange'] = null;
-        }
+      }
     }
 }

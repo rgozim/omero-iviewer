@@ -58,14 +58,14 @@ function onBuild(err, stats) {
   }
 }
 
-function runAntBuild() {
-  const exec = require('child_process').exec;
-  exec('ant', function(err, stdout, stderr) {
-    console.log(stdout);
-    console.log(stderr);
-    console.error(err.stack || err);
-  });
-}
+// function runAntBuild() {
+//   const exec = require('child_process').exec;
+//   exec('ant', function(err, stdout, stderr) {
+//     console.log(stdout);
+//     console.log(stderr);
+//     console.error(err.stack || err);
+//   });
+// }
 
 const build = gulp.series(
   // runAntBuild,

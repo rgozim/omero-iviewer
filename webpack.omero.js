@@ -1,7 +1,7 @@
 const webpackConfig = require('./webpack.config');
 const {ProvidePlugin} = require('webpack');
 
-function modifyConfig({production, server, extractCss, coverage, analyze, karma} = {}) {
+module.exports = ({production, server, extractCss, coverage, analyze, karma} = {}) => {
   // We want css to be extracted to separate file
   extractCss = true;
 
@@ -9,7 +9,7 @@ function modifyConfig({production, server, extractCss, coverage, analyze, karma}
   let config = webpackConfig({
     production, server, extractCss, coverage, analyze, karma
   });
-  config.output.publicPath = "";
+  config.output.publicPath = '';
   config.resolve.modules.push('libs');
   config.module.rules = config.module.rules.map(x => {
     if (x.loader && (x.loader === 'url-loader' || x.loader === 'file-loader')) {
@@ -38,6 +38,4 @@ function modifyConfig({production, server, extractCss, coverage, analyze, karma}
       p => p.constructor.name === ProvidePlugin.name),
     1, providePlugin);
   return config;
-}
-
-module.exports = modifyConfig;
+};
