@@ -22,7 +22,7 @@ import Context from '../app/context';
 import Misc from '../utils/misc';
 import {Converters} from '../utils/converters';
 import Ui from '../utils/ui';
-import * as ol3 from '../../libs/ol3-viewer/src/ome/ome';
+import Viewer from '../ome/ol3/Viewer';
 import Ol3ViewerLinkedEvents from './ol3-viewer-linked-events';
 import * as FileSaver from '../../node_modules/file-saver';
 import {draggable} from 'jquery-ui/ui/widgets/draggable';
@@ -83,7 +83,7 @@ export default class Ol3Viewer extends EventSubscriber {
     /**
      * the internal instance of the ol3.Viewer
      * @memberof Ol3Viewer
-     * @type {ol3.Viewer}
+     * @type {Viewer}
      */
     viewer = null;
 
@@ -464,9 +464,7 @@ export default class Ol3Viewer extends EventSubscriber {
         ol3initParams[PLUGIN_PREFIX] = this.context.getPrefixedURI(IVIEWER);
 
         // create viewer instance
-        this.viewer =
-            new ol3.Viewer(
-                this.image_config.image_info.image_id, {
+        this.viewer = new Viewer(this.image_config.image_info.image_id, {
                      eventbus : this.context.eventbus,
                      server : this.context.server,
                      data: this.image_config.image_info.tmp_data,

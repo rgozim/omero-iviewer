@@ -51,6 +51,8 @@ import 'jquery-ui/themes/base/images/ui-icons_444444_256x240.png';
  */
 @inject(Context)
 export class Index  {
+    static SOME_CONSTANT = 10;
+
     /**
      * the handle on the the resize function (from setTimeout)
      * @memberof Index
@@ -90,6 +92,10 @@ export class Index  {
       this.context = context;
     }
 
+    helloworld = () => {
+      console.log('helloworld');
+    }
+
     /**
      * Overridden aurelia lifecycle method:
      * fired when PAL (dom abstraction) is ready for use
@@ -97,6 +103,8 @@ export class Index  {
      * @memberof Index
      */
     attached() {
+      this.helloworld();
+
       // listen to resizing of the browser window
       let publishResize =
             () => this.context.publish(

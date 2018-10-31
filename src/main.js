@@ -16,6 +16,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+// #if pDE_ENV
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'jquery-ui/themes/base/theme.css';
+import 'jquery-ui/themes/base/spinner.css';
+import 'jquery-ui/themes/base/slider.css';
+import 'spectrum-colorpicker/spectrum.css';
+import '../css/ol3-viewer.css';
+import '../css/app.css';
+// #endif
+
 import { PLATFORM } from 'aurelia-pal';
 import { EventAggregator } from 'aurelia-event-aggregator';
 
@@ -26,17 +36,10 @@ import Misc from './utils/misc';
 import { URI_PREFIX, PLUGIN_NAME, WINDOWS_1252 } from './utils/constants';
 import * as Bluebird from 'bluebird';
 
-// import Index from './app/index';
 
-// #if process.env.NODE_ENV
-require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
-require('../node_modules/jquery-ui/themes/base/theme.css');
-require('../node_modules/jquery-ui/themes/base/spinner.css');
-require('../node_modules/jquery-ui/themes/base/slider.css');
-require('../node_modules/spectrum-colorpicker/spectrum.css');
-require('../css/ol3-viewer.css');
-require('../css/app.css');
-// #endif
+// import Index from './app/index';
+import 'ol';
+
 
 // global scope settings
 Bluebird.config({ warnings: { wForgottenReturn: false } });
@@ -60,7 +63,10 @@ if (!isDevServer) {
 
 export function configure(aurelia) {
   aurelia.use
-    .basicConfiguration();
+    .basicConfiguration()
+    .globalResources([
+      PLATFORM.moduleName('ol')
+    ]);
 
   // Uncomment the line below to enable animation.
   // aurelia.use.plugin(PLATFORM.moduleName('aurelia-animator-css'));
