@@ -10,6 +10,9 @@ module.exports = ({production, server, extractCss, coverage, analyze, karma} = {
     production, server, extractCss, coverage, analyze, karma
   });
   config.output.publicPath = '';
+  config.output.filename = '[name].js';
+  config.output.sourceMapFilename = '[name].map';
+  config.output.chunkFilename = '[name].chunk.js';
   config.resolve.modules.push('libs');
   config.module.rules = config.module.rules.map(x => {
     if (x.loader && (x.loader === 'url-loader' || x.loader === 'file-loader')) {

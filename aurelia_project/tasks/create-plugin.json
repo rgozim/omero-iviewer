@@ -1,6 +1,6 @@
 {
-  "name": "build-plugin",
-  "description": "Builds iViewer with the webpack.omero config.",
+  "name": "create-plugin",
+  "description": "Triggers build-plugin task then moves the build result to the *plugin* folder.",
   "flags": [
     {
       "name": "env",

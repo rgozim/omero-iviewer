@@ -23,26 +23,22 @@
 // require('../../node_modules/jquery-ui/themes/base/images/ui-icons_ffffff_256x240.png');
 // require('../../node_modules/jquery-ui/themes/base/images/ui-icons_444444_256x240.png');
 
-
-// js
-import {inject} from 'aurelia-framework';
-import Context from './context';
-import Misc from '../utils/misc';
-import OpenWith from '../utils/openwith';
-import Ui from '../utils/ui';
-import {PLUGIN_PREFIX, SYNC_LOCK, WEBGATEWAY} from '../utils/constants';
-import {IMAGE_VIEWER_RESIZE, IMAGE_VIEWER_CONTROLS_VISIBILITY,
-  REGIONS_STORE_SHAPES, REGIONS_STORED_SHAPES} from '../events/events';
-
-// Import bootstrap css
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 // images
 import 'bootstrap/fonts/glyphicons-halflings-regular.woff';
 import 'jquery-ui/themes/base/images/ui-icons_777777_256x240.png';
 import 'jquery-ui/themes/base/images/ui-icons_555555_256x240.png';
 import 'jquery-ui/themes/base/images/ui-icons_ffffff_256x240.png';
 import 'jquery-ui/themes/base/images/ui-icons_444444_256x240.png';
+
+// js
+import {inject} from 'aurelia-framework';
+import Context from './context';
+import Misc from './utils/misc';
+import OpenWith from './utils/openwith';
+import Ui from './utils/ui';
+import {PLUGIN_PREFIX, SYNC_LOCK, WEBGATEWAY} from './utils/constants';
+import {IMAGE_VIEWER_RESIZE, IMAGE_VIEWER_CONTROLS_VISIBILITY,
+  REGIONS_STORE_SHAPES, REGIONS_STORED_SHAPES} from './events/events';
 
 /**
  * @classdesc
@@ -92,10 +88,6 @@ export class Index  {
       this.context = context;
     }
 
-    helloworld = () => {
-      console.log('helloworld');
-    }
-
     /**
      * Overridden aurelia lifecycle method:
      * fired when PAL (dom abstraction) is ready for use
@@ -103,8 +95,6 @@ export class Index  {
      * @memberof Index
      */
     attached() {
-      this.helloworld();
-
       // listen to resizing of the browser window
       let publishResize =
             () => this.context.publish(
