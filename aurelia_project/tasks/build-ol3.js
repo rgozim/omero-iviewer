@@ -1,28 +1,29 @@
 import path from 'path';
 import gulp from 'gulp';
 import del from 'del';
-import gccmain from 'google-closure-compiler';
+// import gccmain from 'google-closure-compiler';
 import closureBuilder from 'closure-builder';
 
 
-var glob = closureBuilder.globSupport();
-
-const closureCompiler = gccmain.gulp();
+const glob = closureBuilder.globSupport();
 const outputPath = './libs/ol3-viewer/dist';
-const srcPath =  path.resolve(__dirname, 'libs/ol3-viewer/src/ome');
-const closureUtils = './node_modules/closure-util';
 
+// const closureCompiler = gccmain.gulp();
+// const srcPath =  path.resolve(__dirname, 'libs/ol3-viewer/src/ome');
+// const closureUtils = './node_modules/closure-util';
 
-// const srcArray = [
-//   'libs/ol3-viewer/src/ome/**/*.js',
-//   'node_modules/openlayers/src/**/*.js',
-//   'node_modules/openlayers/build/ol.ext/**/*.js'
-// ];
 
 const srcArray = [
   'libs/ol3-viewer/src/ome/**/*.js',
-  'node_modules/ol/**/*.js',
+  'node_modules/openlayers/src/**/*.js',
+  'node_modules/openlayers/build/ol.ext/**/*.js',
+  'node_modules/closure-util/bin/**/*.js'
 ];
+
+// const srcArray = [
+//   'libs/ol3-viewer/src/ome/**/*.js',
+//   'node_modules/ol/**/*.js'
+// ];
 
 function clearDist() {
   return del([outputPath]);
@@ -30,7 +31,7 @@ function clearDist() {
 
 function jsCompile() {
   closureBuilder.build({
-    name: 'name',
+    name: 'goog.namespace',
     srcs: glob(srcArray),
     out: outputPath + '/ol3-viewer.js'
   });

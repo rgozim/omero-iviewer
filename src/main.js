@@ -25,17 +25,18 @@ import 'spectrum-colorpicker/spectrum.css';
 import '../css/ol3-viewer.css';
 import '../css/app.css';
 // #endif
-import 'libs/ol3-viewer/ome/ome';
+import 'bootstrap';
+import 'libs/ol3-viewer/ome';
 import 'app/index';
+
+// File specific
 import { PLATFORM } from 'aurelia-pal';
 import { EventAggregator } from 'aurelia-event-aggregator';
-
 import environment from './environment';
 import Context from './app/context';
 import Misc from './app/utils/misc';
 import { URI_PREFIX, PLUGIN_NAME, WINDOWS_1252 } from './app/utils/constants';
 import * as Bluebird from 'bluebird';
-
 
 // global scope settings
 Bluebird.config({ warnings: { wForgottenReturn: false } });
@@ -60,8 +61,9 @@ if (!isDevServer) {
 export function configure(aurelia) {
   aurelia.use
     .basicConfiguration()
-    // .feature(PLATFORM.moduleName('libs/index'))
     .globalResources([PLATFORM.moduleName('ol')]);
+  // .feature(PLATFORM.moduleName('libs/index'))
+  // .globalResources([PLATFORM.moduleName('ol'), PLATFORM.moduleName('openlayers')]);
 
   // Uncomment the line below to enable animation.
   // aurelia.use.plugin(PLATFORM.moduleName('aurelia-animator-css'));

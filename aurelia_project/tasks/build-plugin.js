@@ -19,17 +19,10 @@ const config = webpackConfig({
 });
 const compiler = webpack(config);
 
-/**
- *
- */
 function clearDist() {
   return del([config.output.path]);
 }
 
-/**
- * Same function as in build.ts
- * @param {} done
- */
 function buildWebpack(done) {
   if (CLIOptions.hasFlag('watch')) {
     compiler.watch({}, onBuild);
@@ -39,11 +32,6 @@ function buildWebpack(done) {
   }
 }
 
-/**
- *
- * @param {*} err
- * @param {*} stats
- */
 function onBuild(err, stats) {
   if (!CLIOptions.hasFlag('watch') && err) {
     console.error(err.stack || err);

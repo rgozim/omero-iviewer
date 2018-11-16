@@ -9,7 +9,7 @@ module.exports = ({production, server, extractCss, coverage, analyze, karma} = {
   let config = webpackConfig({
     production, server, extractCss, coverage, analyze, karma
   });
-  config.output.publicPath = '';
+  config.output.publicPath = "";
   config.output.filename = '[name].js';
   config.output.sourceMapFilename = '[name].map';
   config.output.chunkFilename = '[name].chunk.js';

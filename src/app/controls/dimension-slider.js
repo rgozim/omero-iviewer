@@ -19,11 +19,11 @@
 import {inject,customElement, bindable, BindingEngine} from 'aurelia-framework';
 import {slider} from 'jquery-ui/ui/widgets/slider';
 import {UNTILED_RETRIEVAL_LIMIT} from '../../libs/ol3-viewer/ome/ol3/Globals';
-
 import Context from '../context';
 import Misc from '../utils/misc';
 import { PROJECTION } from '../utils/constants';
 import { IMAGE_DIMENSION_CHANGE, IMAGE_DIMENSION_PLAY, IMAGE_SETTINGS_CHANGE } from '../events/events';
+
 
 /**
  * Represents a dimension slider using jquery slider
